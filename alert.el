@@ -3,6 +3,7 @@
 ;; Copyright (C) 2011-2013 John Wiegley
 
 ;; Author: John Wiegley <jwiegley@gmail.com>
+;; Co-author: Julio Antúnez Tarín <julio.antunez.tarin@gmail.com>
 ;; Created: 24 Aug 2011
 ;; Updated: 16 Mar 2015
 ;; Version: 1.2
@@ -552,11 +553,11 @@ fringe gets colored whenever people chat on BitlBee:
       ;; when we get here you better be using log4e or have your logging
       ;; functions defined
       (unless (fboundp func)
-	(when (fboundp 'log4e:deflogger)
+	      (when (fboundp 'log4e:deflogger)
           (log4e:deflogger "alert" "%t [%l] %m" "%H:%M:%S")
           (when (functionp 'alert--log-set-level)
             (alert--log-set-level alert-log-level)))
-	(alert--log-enable-logging))
+	      (alert--log-enable-logging))
       (when (fboundp func)
         (apply func (list mes))))))
 
@@ -879,7 +880,7 @@ From https://github.com/julienXX/terminal-notifier."
 
 (defun alert-osx-notifier-notify (info)
   (apply #'call-process "osascript" nil nil nil "-e"
-         (list (format "display notification %S with title %S"
+         (list (format "display notification %S with title %S beep"
                        (alert-encode-string (plist-get info :message))
                        (alert-encode-string (plist-get info :title)))))
   (alert-message-notify info))
@@ -887,7 +888,7 @@ From https://github.com/julienXX/terminal-notifier."
 (when (fboundp 'do-applescript)
   ;; Use built-in AppleScript support when possible.
   (defun alert-osx-notifier-notify (info)
-    (do-applescript (format "display notification %S with title %S"
+    (do-applescript (format "display notification %S with title %S beep"
                             (alert-encode-string (plist-get info :message))
                             (alert-encode-string (plist-get info :title))))
     (alert-message-notify info)))
